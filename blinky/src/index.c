@@ -1,32 +1,33 @@
-#define UART_SPEED      115200
-
-#include "ets_sys.h"
-#include "osapi.h"
+#include "index.h"
+#include "esp-open-sdk.h"
 #include "gpio.h"
-#include "os_type.h"
+#include "osapi.h"
 
-// extern "C" {
-// #include "user_interface.h"
-// }
+static os_timer_t timer;
 
-void loop() {
-  if (GPIO_REG_READ(GPIO_OUT_ADDRESS) & BIT2) {
-      //Set GPIO2 to LOW
+void togglePin(void *arg) {
+  int state = GPIO_REG_READ(GPIO_OUT_ADDRESS) & BIT2;
+
+  os_printf("-- GPIO2: %d \r\n", state);
+
+  if (state > 0) {
       gpio_output_set(0, BIT2, BIT2, 0);
   } else {
-      //Set GPIO2 to HIGH
       gpio_output_set(BIT2, 0, BIT2, 0);
   }
-
-  os_delay_us(1000);
 }
 
+void loop() {}
+
 void setup() {
-    gpio_init();
+  gpio_init();
 
-    //Set GPIO2 to output mode
-    PIN_FUNC_SELECT(PERIPHS_IO_MUX_GPIO2_U, FUNC_GPIO2);
+  //Set GPIO2 to output mode
+  PIN_FUNC_SELECT(PERIPHS_IO_MUX_GPIO2_U, FUNC_GPIO2);
 
-    //Set GPIO2 low
-    gpio_output_set(0, BIT2, BIT2, 0);
+  //Set GPIO2 low
+  gpio_output_set(0, BIT2, BIT2, 0);
+
+  os_timer_setfn(&timer, (os_timer_func_t *)togglePin, NULL);
+  os_timer_arm(&timer, 1000, 1);
 }

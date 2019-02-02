@@ -1,16 +1,10 @@
-ESPPORT 			?= /dev/ttyUSB0
-FLASH_SPEED 	?= 230400
+FLASH_SPEED   ?= 230400
 
-.PHONY: build flash erase clean
+.PHONY: build flash
 
 build:
-	docker run --rm -ti -e VERBOSE=1 -e ESPPORT -v$$(pwd)/:/home/espbuilder/project --privileged espbuild
-
-clean:
-	rm -rf build/** firmware/**
-
-erase:
-	esptool.py --baud $(FLASH_SPEED) --port $(ESPPORT) erase_flash
+	docker run --rm -v$$(pwd)/:/home/espbuilder/project darlanalves/espbuild
 
 flash:
-	esptool.py --baud $(FLASH_SPEED) --port $(ESPPORT) write_flash -fm qio -fs 512KB 0x00000 firmware/0x00000.bin 0x10000 firmware/0x10000.bin 0x7c000 firmware/0x7c000.bin
+	esptool.py --baud $(FLASH_SPEED) --port $(ESP_PORT) write_flash -fm qio -fs 512KB 0x00000 firmware/0x00000.bin 0x10000 firmware/0x10000.bin 0x7c000 firmware/0x7c000.bin
+
