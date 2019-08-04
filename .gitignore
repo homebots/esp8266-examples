@@ -2,3 +2,4 @@ build
 firmware
 .vscode
 *.code-workspace
+tmp
