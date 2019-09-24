@@ -3,3 +3,4 @@ firmware
 .vscode
 *.code-workspace
 tmp
+.DS_Store

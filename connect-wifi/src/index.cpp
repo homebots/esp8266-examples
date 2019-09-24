@@ -6,7 +6,7 @@ extern "C" {
 #include "c_types.h"
 #include "gpio.h"
 #include "osapi.h"
-#include "esp-open-sdk.h"
+#include "homebots.h"
 #include "wifi.h"
 
 static os_timer_t timer;

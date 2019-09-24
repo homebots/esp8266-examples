@@ -1,5 +1,9 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "index.h"
-#include "esp-open-sdk.h"
+#include "homebots.h"
 #include "gpio.h"
 #include "osapi.h"
 
@@ -20,7 +24,6 @@ void togglePin(void *arg) {
 void loop() {}
 
 void setup() {
-  gpio_init();
 
   //Set GPIO2 to output mode
   PIN_FUNC_SELECT(PERIPHS_IO_MUX_GPIO2_U, FUNC_GPIO2);
@@ -31,3 +34,7 @@ void setup() {
   os_timer_setfn(&timer, (os_timer_func_t *)togglePin, NULL);
   os_timer_arm(&timer, 1000, 1);
 }
+
+#ifdef __cplusplus
+}
+#endif

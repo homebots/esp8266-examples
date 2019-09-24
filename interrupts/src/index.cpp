@@ -1,5 +1,9 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "index.h"
-#include "esp-open-sdk.h"
+#include "homebots.h"
 #include "gpio.h"
 #include "osapi.h"
 
@@ -31,3 +35,7 @@ void setup() {
   os_timer_setfn(&timer, (os_timer_func_t *)togglePin, NULL);
   os_timer_arm(&timer, 1000, 1);
 }
+
+#ifdef __cplusplus
+}
+#endif
