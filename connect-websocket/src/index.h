@@ -1,11 +1,9 @@
-#define SERIAL_SPEED      115200
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void loop(void);
-void setup(void);
+void loop() {};
+void setup();
 
 #ifdef __cplusplus
 }

@@ -4,33 +4,18 @@ extern "C" {
 
 #include "index.h"
 #include "wifi.h"
-#include "ntp.h"
 #include "websocket.h"
 #include "homebots.h"
 
 static os_timer_t webSocketCheck;
+static os_timer_t sendBits;
 static Wifi wifiConnection;
 static ws_info webSocket;
-// static NTP ntp;
 
-#define CS_CONNECTED 3
-#define WS_OPCODE_TEXT 0x1
-#define WS_OPCODE_BINARY 0x2
-
-void ICACHE_FLASH_ATTR onReceive(struct ws_info *wsInfo, int length, char *message, int opCode) {
-  switch (opCode) {
-    case WS_OPCODE_BINARY:
-      break;
-
-    case WS_OPCODE_TEXT:
-      os_printf("%d %s\n", length, message);
-      ws_send(wsInfo, WS_OPCODE_TEXT, message, length);
-      break;
+void onReceive(struct ws_info *socket, int length, char *message, int opCode) {
+  if (opCode == WS_OPCODE_TEXT) {
+    os_printf("RECV %s\n", message);
   }
-}
-
-void ICACHE_FLASH_ATTR loop() {
-  // ntp.sync();
 }
 
 void ICACHE_FLASH_ATTR connectWebSocket() {
@@ -39,16 +24,13 @@ void ICACHE_FLASH_ATTR connectWebSocket() {
     return;
   }
 
-  // if (!ntp.isReady()) {
-  //   os_printf("Waiting for NTP: %lu", ntp.interval);
-  //   return;
-  // }
-
   if (webSocket.connectionState != CS_CONNECTED) {
-    ws_connect(&webSocket, "ws://hub.homebots.io/hub");
+    ws_connect(&webSocket, "ws://echo.websocket.org/");
     return;
   }
 
+  os_printf("PING\n");
+  ws_send(&webSocket, WS_OPCODE_TEXT, (char*)"PING", 5);
   os_timer_arm(&webSocketCheck, 5000, 1);
 }
 
@@ -57,7 +39,6 @@ void ICACHE_FLASH_ATTR setup() {
   os_timer_arm(&webSocketCheck, 1000, 1);
 
   wifiConnection.connectTo("HomeBots", "HomeBots");
-  // ntp.start();
   webSocket.onReceive = onReceive;
 }
 
