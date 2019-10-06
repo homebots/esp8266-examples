@@ -8,7 +8,6 @@ extern "C" {
 #include "homebots.h"
 
 static os_timer_t webSocketCheck;
-static os_timer_t sendBits;
 static Wifi wifiConnection;
 static ws_info webSocket;
 
