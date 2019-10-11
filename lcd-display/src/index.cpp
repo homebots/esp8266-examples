@@ -185,9 +185,6 @@ void ICACHE_FLASH_ATTR writeImage() {
 void setup() {
   i2c_gpio_init();
 
-  PIN_PULLUP_EN(I2C_MASTER_SDA_MUX);
-  PIN_PULLUP_EN(I2C_MASTER_SCL_MUX);
-
   display_address = i2c_findDevice();
 
   if (display_address) {

@@ -2,6 +2,9 @@
 extern "C" {
 #endif
 
+#define WIFI_SSID       "HomeBots"
+#define WIFI_PASSWORD   "HomeBots"
+
 #include "index.h"
 #include "wifi.h"
 #include "websocket.h"
@@ -37,7 +40,7 @@ void ICACHE_FLASH_ATTR setup() {
   os_timer_setfn(&webSocketCheck, (os_timer_func_t *)connectWebSocket, NULL);
   os_timer_arm(&webSocketCheck, 1000, 1);
 
-  wifiConnection.connectTo("HomeBots", "HomeBots");
+  wifiConnection.connectTo(WIFI_SSID, WIFI_PASSWORD);
   webSocket.onReceive = onReceive;
 }
 
