@@ -5,11 +5,7 @@ extern "C"
 
 #include "index.h"
 #include "homebots.h"
-
-#define dht11Pin 0
-#define wait(t) os_delay_us(t * 1000UL)
-#define uwait os_delay_us
-#define read() pinRead(dht11Pin)
+#include "i2c.h"
 
 os_timer_t repeater;
 

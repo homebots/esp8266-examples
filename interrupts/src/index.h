@@ -1,4 +1,5 @@
-#define SERIAL_SPEED      115200
+#include "c_types.h"
 
-void loop();
+void loop() {}
 void setup();
+void onLoop();
