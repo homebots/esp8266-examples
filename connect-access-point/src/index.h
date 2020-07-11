@@ -4,6 +4,8 @@
 extern "C" {
 #endif
 
+#include "homebots.h"
+
 void loop(void) {}
 void setup(void);
 
